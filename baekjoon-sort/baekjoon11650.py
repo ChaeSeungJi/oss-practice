@@ -24,7 +24,7 @@ for i in range(N):
     t = (x,y)
     coordinates.append(t)
 
-sorted_coordinates = sorted(coordinates, key=lambda coord: (-coord[1]))
+sorted_coordinates = sorted(coordinates, key=lambda coord: (coord[1],coord[0]))
 
 for i in range(N):
     print(return_value(sorted_coordinates[i]))
