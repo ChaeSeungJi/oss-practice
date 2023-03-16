@@ -11,6 +11,8 @@
 # import sys
 # input = sys.stdin.readline().rstrip()
 
+# 116501 문제랑 개념이 비슷해서 하나의 파일로 퉁침
+
 
 def return_value(tuple_):
     x,y=tuple_
@@ -24,7 +26,8 @@ for i in range(N):
     t = (x,y)
     coordinates.append(t)
 
-sorted_coordinates = sorted(coordinates, key=lambda coord: (coord[1],coord[0]))
+sorted_coordinates = sorted(coordinates, key=lambda coord: (coord[1],coord[0])) # 중요한 건 여기 람다함수 안의 내용이 parameter1이 우선순위 1, paremeter2가 우선순위 2임
+
 
 for i in range(N):
     print(return_value(sorted_coordinates[i]))
