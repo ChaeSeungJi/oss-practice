@@ -20,5 +20,6 @@ def draw_star_pattern(n):
     for line in pattern:
         print(line)
 
+n = (int)(input())
 
-draw_star_pattern(3)
+draw_star_pattern(n)
