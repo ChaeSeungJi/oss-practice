@@ -14,4 +14,4 @@ s1 = Sample()
 s2 = Sample()
 s1.numEven(15)
 s2.numEven(15)
-print(s1.counter,s1.counter2,Sample.counter2) # dd
+print(s1.counter,s1.counter2,Sample.counter2) # ss
