@@ -17,7 +17,7 @@ def add_order():
                 break
             order_list.append((order, 1))
         more = input("계속 주문하시겠습니까? (Y/N) ")
-        if more == 'N':
+        if more == 'N' or more == 'n':
             break
 
 
