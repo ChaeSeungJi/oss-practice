@@ -1,62 +1,76 @@
-from itertools import product
-
-# 고객이 주문한 음료수 리스트를 저장하는 리스트
-order_list = []
-
-# 고객이 주문한 음료수를 입력받아 order_list에 추가하는 함수
-
-
-def add_order():
-    menu = ['coffee', 'tea', 'latte', 'milk']
-    while True:
-        order_input = input("음료수를 입력하세요: ")
-        orders = order_input.split(' and ') if 'and' in order_input else order_input.split(' or ')
-        for order in orders:
-            if order not in menu:
-                print("잘못된 입력입니다.")
-                break
-            order_list.append((order, 1))
-        more = input("계속 주문하시겠습니까? (Y/N) ")
-        if more == 'N' or more == 'n':
-            break
+import re
 
 
 
-# 가능한 모든 조합을 계산하는 함수
-def calculate_combinations(order_list):
-    combinations = []
-    for combination in product([0, 1], repeat=len(order_list)):
-        temps = []
-        for i, order in enumerate(order_list):
-            temps.append((order[0], combination[i]))
-        i = 0
-        while True:
-            if temps[i][1] != 0:
-                combinations.append(temps)
-                break
-            if (i == len(temps)-1):
-                break
-            i+=1
-
-    return combinations
-
-# 가능한 모든 조합을 출력하는 함수
-
-
-# 가능한 모든 조합을 출력하는 함수
-def print_combinations(combinations):
-    for combination in combinations:
-        print(combination)
-
-
-# 음료수 주문을 입력받아 가능한 모든 조합을 출력합니다.
-add_order()
-combinations = calculate_combinations(order_list)
-print_combinations(combinations)
+# logic_symbols = {"and": "∧", "or": "∨", "~": "¬", "$": "→"}
+list_logicOperator = ["∧", "∨"]
+list_logicSymbol = ["¬", "→"]
 
 
 
-# To do list
-# 1. and일 때의 처리
-# 2. 정해지지 않은 문자열 처리
-# 3. 복잡한 논리식의 처리
+
+
+def splitLogic(logicString : list):
+    # '|'는 정규 표현식에서 '또는'을 의미하며, re.escape는 논리 기호가 정규 표현식의 특수 문자가 아니라는 것을 보장합니다.
+    parts = re.split('|'.join(map(re.escape, list_logicOperator)), leftLogic)
+    # 각 부분에서 앞뒤 공백 제거
+    parts = [part.strip() for part in parts]
+    return parts
+
+def makeOperatorIdx(operatorDic:dict,logic:list):
+    order = 1
+    for operator in list_logicOperator:
+        index = logic.find(operator)
+        if index != -1:  # 기호가 문자열에 있다면
+            operatorDic[operator] = order
+            order += 1
+
+
+
+
+# logics = inputString.split("$")
+# leftLogic = logics[0]
+# rightLogic = logics[1]
+
+# leftOperatordic = {}
+# rightOperatordic = {}
+
+# while 1:
+#     start_and = leftLogic.find("and"); start_or=leftLogic.find("or")
+#     end_and = 0; end_or=0
+#     if (start_and== -1) and (start_or==-1):
+#         break
+#     else:
+
+# ============= 주석 처리된 부분은 입력값이 논리기호가 아닌 문자열로 들어왔을 때 처리하려고 했으나 나중에 생각하기
+
+inputString = "coffee ∧ coffee → coffee ∨ coffee"
+logics = inputString.split("→")
+leftLogic = logics[0]
+rightLogic = logics[1]
+
+leftOperator_order ={}
+rightOperator_order ={}
+
+print(leftLogic)
+makeOperatorIdx(leftOperator_order,leftLogic)
+
+# 논리 기호를 구분자로 문자열 분리
+# '|'는 정규 표현식에서 '또는'을 의미하며, re.escape는 논리 기호가 정규 표현식의 특수 문자가 아니라는 것을 보장합니다.
+parts = re.split('|'.join(map(re.escape, list_logicOperator)), leftLogic)
+# 각 부분에서 앞뒤 공백 제거
+parts = [part.strip() for part in parts]
+
+outLeftLogic = ["_"] * len(parts)
+
+print(leftOperator_order)
+
+# setLeftLogic = set(parts)
+
+# for i in range(len(parts)):
+
+
+
+
+
+
