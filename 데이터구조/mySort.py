@@ -166,25 +166,34 @@ def startTest():
     count = 1000    
 
     for i in range(count):# 1000회 반복
+
         my_list.clear() # my_list비우기
         make_lsit(my_list) # my_list채우기
 
-        start = time.time() # 시작시간
-        bubbleSortRec(my_list.copy(), listLength) # 버블정렬 실행
-        end = time.time()   # 종료시간
-        sum_bubble += end - start # 변수에 함수 동작시간 더하기
 
         start = time.time() # 시작시간
         selectionSortRec(my_list.copy())    # 선택정렬 실행
         end = time.time()   # 종료시간
         sum_selection += end - start    # 변수에 함수 동작시간 더하기
 
+        my_list.clear() # my_list비우기
+        make_lsit(my_list) # my_list채우기        
+
+        start = time.time() # 시작시간
+        bubbleSortRec(my_list.copy(), listLength) # 버블정렬 실행
+        end = time.time()   # 종료시간
+        sum_bubble += end - start # 변수에 함수 동작시간 더하기
+
+        my_list.clear() # my_list비우기
+        make_lsit(my_list) # my_list채우기
 
         start = time.time() # 시작시간
         insertionSortRec(my_list.copy(), 1, listLength-1)   # 삽입정렬 실행
         end = time.time()   # 종료시간
         sum_insertion += end - start    # 변수에 함수 동작시간 더하기
 
+        my_list.clear() # my_list비우기
+        make_lsit(my_list) # my_list채우기
 
         start = time.time() # 시작시간
         C = [None] * listLength # 병합정렬의 출력값을 위한 변수 빈 리스트
@@ -192,17 +201,25 @@ def startTest():
         end = time.time()   # 종료시간
         sum_merge += end - start    # 변수에 함수 동작시간 더하기
 
+        my_list.clear() # my_list비우기
+        make_lsit(my_list) # my_list채우기
 
         start = time.time() # 시작시간
         quick_sort(my_list.copy(), 0, listLength-1) # 퀵정렬 실행
         end = time.time()   # 종료시간  # 변수에 함수 동작시간 더하기
         sum_quick += end - start
 
+        my_list.clear() # my_list비우기
+        make_lsit(my_list) # my_list채우기
+
         start = time.time() # 시작시간
         heap_sort(my_list.copy())   # 힙정렬 실행
         end = time.time()   # 종료시간  
         sum_heap += end - start # 변수에 함수 동작시간 더하기
 
+        my_list.clear() # my_list비우기
+        make_lsit(my_list) # my_list채우기
+        
         start = time.time() # 시작시간
         shellSort(my_list.copy())   # 쉘정렬 실행
         end = time.time()   # 종료시간
