@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 import pandas as pd
 from tabulate import tabulate
 
-class starbucksCrawl:
+class StarbucksCrawl:
     def __init__(self):
         self.driver_path = "./chromedriver.exe"
 
@@ -25,12 +25,10 @@ class starbucksCrawl:
         driver.get("https://proofmood.mindconnect.cc/ko/TruthTable/tr_table.php")
 
         # 논리식 입력란에 논리식 입력
-        input_element = driver.find_element(By.NAME,"fmla_str")
-        input_element.send_keys(expression)
+        driver.execute_script("arguments[0].value = arguments[1]", driver.find_element(By.NAME, "fmla_str"), expression)
 
         # Go 버튼 클릭
-        go_button = driver.find_element(By.NAME,"go")
-        go_button.click()
+        driver.execute_script("arguments[0].click()", driver.find_element(By.NAME, "go"))
 
         # Truth Table이 나타날 때까지 잠시 대기
         driver.implicitly_wait(1)
@@ -65,14 +63,14 @@ class starbucksCrawl:
 
         return df, target_column_index
 
-    def calculateTrueOrFalse(self, df, target_column_index):
+    def calculate_true_or_false(self, df, target_column_index):
         values = df.iloc[:, target_column_index].tolist()
         for v in values:
             if v == '0':
                 return "False"
         return "True"
 
-    def printLogic(self, inputString):
-        df, i = self.get_truth_table(inputString)
-        print(self.calculateTrueOrFalse(df, i))
+    def print_logic(self, input_string):
+        df, i = self.get_truth_table(input_string)
+        print(self.calculate_true_or_false(df, i))
         print(tabulate(df, headers='keys', tablefmt='psql', showindex=True))

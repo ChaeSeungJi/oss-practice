@@ -1,7 +1,7 @@
 # pyqt_starbucks.py
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLineEdit, QTextEdit, QTableWidget, QTableWidgetItem, QHeaderView,QLabel
-from starbucksCrawl import starbucksCrawl
+from starbucksCrawl import *
 from tabulate import tabulate
 from starbucks2 import *
 from PyQt5.QtGui import QColor, QBrush
@@ -72,12 +72,12 @@ class MyApp(QWidget):
     @pyqtSlot()
     def on_click(self):
         starBucks = starbucks2()
-        crawl = starbucksCrawl()
+        crawl = StarbucksCrawl()
         inputString = starBucks.main(self.lineEdit.text())
         df, i = crawl.get_truth_table(inputString)
 
         self.label1.setText("논리식 변환 결과 : " + inputString)
-        self.label2.setText(crawl.calculateTrueOrFalse(df,i))
+        self.label2.setText(crawl.calculate_true_or_false(df,i))
 
         df.columns = [str(c) for c in df.columns]
         self.tableWidget.setRowCount(df.shape[0])
