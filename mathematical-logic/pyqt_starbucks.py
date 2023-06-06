@@ -1,13 +1,14 @@
 # pyqt_starbucks.py
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLineEdit, QTextEdit, QTableWidget, QTableWidgetItem, QHeaderView,QLabel
-from starbucksCrawl import *
+from starbucksCrawl import starbucksCrawl
 from tabulate import tabulate
 from starbucks2 import *
 from PyQt5.QtGui import QColor, QBrush
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
+import time
 
 
 class MyApp(QWidget):
@@ -15,6 +16,8 @@ class MyApp(QWidget):
         super().__init__()
         self.resize(800, 600)
         self.initUI()
+        self.starBucks = starbucks2()
+        self.crawl = starbucksCrawl()
 
     def initUI(self):
         self.setWindowTitle('Starbucks Logic')
@@ -31,9 +34,6 @@ class MyApp(QWidget):
         self.example3.setTextInteractionFlags(Qt.TextSelectableByMouse)
 
 
-        self.example1.setText("coffee ∧ coffee → coffee ∧ coffee")
-        self.example2.setText("coffee ∧ coffee → coffee ∧ tea")
-        self.example3.setText("coffee ∧ ¬coffee ∨ tea → coffee ∨ milk ∨ coffee")
 
 
         self.lineEdit = QLineEdit()
@@ -71,14 +71,21 @@ class MyApp(QWidget):
 
     @pyqtSlot()
     def on_click(self):
-        starBucks = starbucks2()
-        crawl = StarbucksCrawl()
-        inputString = starBucks.main(self.lineEdit.text())
-        df, i = crawl.get_truth_table(inputString)
+
+        start = time.time()
+        inputString = self.starBucks.main(self.lineEdit.text())
+        end = time.time()
+        print("변환시간: ",end - start)
+
+        start = time.time()
+        df, i = self.crawl.get_truth_table(inputString)
+        end = time.time()
+        print("크롤링시간: ", end - start)
 
         self.label1.setText("논리식 변환 결과 : " + inputString)
-        self.label2.setText(crawl.calculate_true_or_false(df,i))
-
+        self.label2.setText(self.crawl.calculateTrueOrFalse(df, i))
+        
+        start = time.time()
         df.columns = [str(c) for c in df.columns]
         self.tableWidget.setRowCount(df.shape[0])
         self.tableWidget.setColumnCount(df.shape[1])
@@ -89,6 +96,12 @@ class MyApp(QWidget):
                 if column == i:  # Change color for i-th column
                     item.setBackground(QBrush(QColor(255, 0, 0, 127)))
                 self.tableWidget.setItem(row[0], column, item)
+        end = time.time()
+        print("화면생성시간 : ",end - start)
+
+    def closeEvent(self, event):
+        self.crawl.close()  # 크롤링 클래스의 close 함수 호출
+        event.accept()
 
 if __name__ == '__main__':
     import sys
